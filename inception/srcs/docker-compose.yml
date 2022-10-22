@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  nginx:
+    build:          ./requirements/nginx
+    image:          nginx #i am still unsure about this one
+    restart:        always
+    container_name: nginx
+    depends_on:     wordpress
+    ports:
+      - "443:443"
+    networks:
+      - inception
+
+networks:
+  inception:
+    name:   inception
+    driver: bridge
+
