@@ -7,7 +7,7 @@ CREATE USER IF NOT EXISTS 'WORDPRESS_DB_USER'@'%' IDENTIFIED BY WORDPRESS_DB_PAS
 -- give user all permissions for data base
 GRANT ALL ON WORDPRESS_DB_NAME.* to 'WORDPRESS_DB_USER'@'%';
 
---activate permissions
+-- refresh permissions
 FLUSH PRIVILEGES
 
 -- https://serverok.in/you-must-reset-your-password-using-alter-user
