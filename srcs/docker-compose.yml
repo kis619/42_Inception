@@ -11,17 +11,16 @@ volumes:
     driver:   local
     driver_opts:
       o:      bind
-      type:   volume
-      device: /home/kristiyana/42_Inception/db
+      type:   none
+      device: /home/kristiyana/inception_volumes/db_volume
   
   wp_volume:
     name:     wp_volume
     driver:   local
     driver_opts:
       o:      bind
-      type:   volume
-      device: /home/krisityana/42_Inception/wordpress
-
+      type:   none
+      device: /home/kristiyana/inception_volumes/wp_volume
 
 services:
   nginx:
@@ -32,6 +31,7 @@ services:
       - '443:443'
     volumes:
       - wp_volume:/var/www/html
+      - ./:/var/log/nginx
     depends_on:
       - wordpress
     networks:
