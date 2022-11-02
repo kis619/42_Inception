@@ -7,31 +7,27 @@ networks:
 
 volumes:
   db_volume:
-    name:     db_volume
-    driver:   local
+    name: db_volume
     driver_opts:
-      o:      bind
-      type:   none
-      device: /home/kristiyana/inception_volumes/db_volume
-  
+      o: bind
+      type: none #volume
+      drive: /home/kristiyana/inception_volumes/db_volume
   wp_volume:
-    name:     wp_volume
-    driver:   local
+    name: wp_volume
     driver_opts:
-      o:      bind
-      type:   none
-      device: /home/kristiyana/inception_volumes/wp_volume
+      o: bind
+      type: none #volume
+      drive: /home/kristiyana/inception_volumes/wp_volume
 
 services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx
-    image: nginx
-    ports:
-      - '443:443'
-    volumes:
+    image: nginx #do i need this?
+    volumes: 
       - wp_volume:/var/www/html
-      - ./:/var/log/nginx
+    ports:
+      - 443:443
     depends_on:
       - wordpress
     networks:
@@ -41,27 +37,26 @@ services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb
-    image: mariadb
-    ports:
-      - '3306:3306'
+    image: mariadb #do i need this?
+    environment: #learn how to use the .env file
+      - MYSQL_ROOT_PW
+      - MYSQL_DB
     volumes:
       - db_volume:/var/lib/mysql
-    env_file:
-      - .env
+    # ports: #why is this not needed?
+    #   - 3306:3306
     networks:
       - inception_network
-    restart: always
-
+    
   wordpress:
     container_name: wordpress
-    build: ./requirements/wordpress
-    image: wordpress
+    build: ./recquirements/wordpress
+    image:  wordpress
+    volumes:
+      - wp_volume:/var/www/html
     ports:
-      - '9000:9000'
-    env_file:
-      - .env
+      - 9000:9000
     depends_on:
       - mariadb
-    networks:
-      - inception_network
     restart: always
+
