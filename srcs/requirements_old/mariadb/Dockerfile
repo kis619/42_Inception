@@ -1,6 +1,6 @@
 FROM alpine:3.15
 
-RUN apk --update add mariadb mariadb-client
+RUN apk --update add mariadb mariadb-client && rm -rf /var/cache/apk*
 
 COPY conf/initfile.sql /initfile.sql
 
