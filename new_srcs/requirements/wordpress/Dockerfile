@@ -1,5 +1,8 @@
 FROM	debian:buster
-RUN	apt-get update && apt-get install -y vim php php-common php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath wget unzip mariadb-client
+
+RUN	apt-get update \
+    && apt-get install -y \
+    php php-fpm php-mysql php-zip wget unzip
 
 WORKDIR	/var/www
 
@@ -7,8 +10,7 @@ WORKDIR	/var/www
 # chown --changes the user and group ownership of eachfile
 # chown -R --do stuff recursively
 
-RUN	usermod -u 1000 www-data \
-    && wget https://wordpress.org/latest.zip \
+RUN	wget https://wordpress.org/latest.zip \
     && chown www-data:www-data /var/www/latest.zip \
     && mkdir /run/php \
     && chown -R www-data:www-data /var/ \
