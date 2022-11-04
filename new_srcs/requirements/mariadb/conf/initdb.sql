@@ -5,11 +5,11 @@ CREATE DATABASE IF NOT EXISTS wordpress;
 -- mysql generates a temp root password which needs be changed
 ALTER USER 'root'@'localhost' IDENTIFIED BY '4269';
 
--- FLUSH PRIVILEGES;
-
 -- create user with password
-CREATE USER IF NOT EXISTS 'voldemort'@'localhost' IDENTIFIED BY '4269';
+CREATE USER IF NOT EXISTS 'voldemort'@'%' IDENTIFIED BY '4269';
 
 -- give user all permissions for data base
-GRANT ALL PRIVILEGES ON wordpress.* TO 'voldemort'@'%' IDENTIFIED BY '4269' with grant option;
+GRANT ALL ON wordpress.* TO 'voldemort'@'%' IDENTIFIED BY '4269';
+
+-- refresh permissions
 FLUSH PRIVILEGES;
