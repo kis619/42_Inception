@@ -21,6 +21,8 @@ services:
     container_name: wordpress
     volumes:
       - wp_volume:/var/www/html
+    env_file:
+      - .env
     restart: always
     networks:
       - inception
