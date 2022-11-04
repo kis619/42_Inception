@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+
+  mariadb:
+    build: ./requirements/mariadb
+    image: kmilchev/mariadb:latest
+    container_name: mariadb #this is the database hostname
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+    volumes:
+      - db_volume:/var/lib/mysql
+    restart: always
+    networks:
+      - inception
+
+  wordpress:
+    build: ./requirements/wordpress
+    image: kmilchev/wordpress:latest
+    container_name: wordpress
+    volumes:
+      - wp_volume:/var/www/html
+    restart: always
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+
+  nginx:
+    build: ./requirements/nginx
+    image: kmilchev/nginx:latest
+    container_name: nginx
+    volumes:
+      - wp_volume:/var/www/html
+    restart: always
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    ports:
+      - 443:443
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
+
+volumes:
+  db_volume:
+    name: db_volume
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/kristiyana/inception_volumes/db_volume
+  wp_volume:
+    name: wp_volume
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/kristiyana/inception_volumes/wp_volume
